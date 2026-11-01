@@ -1,0 +1,39 @@
+erDiagram
+  APP_USERS ||--o{ CUSTOMER_PROFILES : owns
+  APP_USERS ||--o{ CARTS : has
+  APP_USERS ||--o{ ORDERS : places
+  APP_USERS ||--o{ BOOKINGS : books
+  FACILITIES ||--o{ FACILITY_RESOURCES : contains
+  FACILITY_RESOURCES ||--o{ FACILITY_SLOTS : offers
+  FACILITY_SLOTS ||--o{ CART_ITEMS : selected_in
+  CUSTOMER_PROFILES ||--o{ CART_ITEMS : booked_for
+  PRODUCTS ||--o{ CART_ITEMS : selected_in
+  PRODUCT_CATEGORIES ||--o{ PRODUCTS : classifies
+  COUPONS ||--o{ CARTS : applied_to
+  ORDERS ||--o{ BOOKINGS : confirms
+  FACILITY_SLOTS ||--o{ BOOKINGS : reserved_by
+  CUSTOMER_PROFILES ||--o{ BOOKINGS : attendee
+  ORDERS ||--o{ ORDER_ITEMS : contains
+  BOOKINGS ||--o| ORDER_ITEMS : snapshot_line
+  PRODUCTS ||--o{ ORDER_ITEMS : product_snapshot_source
+  COUPONS ||--o{ COUPON_REDEMPTIONS : redeemed
+  APP_USERS ||--o{ COUPON_REDEMPTIONS : redeems
+  ORDERS ||--o| COUPON_REDEMPTIONS : uses
+  ORDERS ||--o| PAYMENTS : payment
+
+  APP_USERS { bigint id PK }
+  CUSTOMER_PROFILES { bigint id PK; bigint account_user_id FK; text profile_type }
+  FACILITIES { bigint id PK; text slug UK; text sport_type }
+  FACILITY_RESOURCES { bigint id PK; bigint facility_id FK; text resource_code }
+  FACILITY_SLOTS { bigint id PK; bigint resource_id FK; timestamptz starts_at; timestamptz ends_at }
+  PRODUCT_CATEGORIES { bigint id PK; text slug UK }
+  PRODUCTS { bigint id PK; bigint category_id FK; text sku UK; numeric price }
+  CARTS { bigint id PK; bigint account_user_id FK; bigint coupon_id FK }
+  CART_ITEMS { bigint id PK; bigint cart_id FK; bigint facility_slot_id FK; bigint product_id FK }
+  DISCOUNT_POLICIES { bigint id PK; text customer_category UK }
+  COUPONS { bigint id PK; text code UK; text discount_type }
+  ORDERS { bigint id PK; bigint account_user_id FK; text idempotency_key }
+  BOOKINGS { bigint id PK; bigint order_id FK; bigint facility_slot_id FK; bigint customer_profile_id FK }
+  ORDER_ITEMS { bigint id PK; bigint order_id FK; bigint booking_id FK; bigint product_id FK }
+  COUPON_REDEMPTIONS { bigint id PK; bigint coupon_id FK; bigint account_user_id FK; bigint order_id FK }
+  PAYMENTS { bigint id PK; bigint order_id FK; text payment_reference UK }
