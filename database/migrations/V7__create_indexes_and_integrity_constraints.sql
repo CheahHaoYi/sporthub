@@ -1,0 +1,26 @@
+-- Catalogue and slot lookup indexes.
+CREATE INDEX ix_customer_profiles_account ON customer_profiles(account_user_id);
+CREATE INDEX ix_customer_profiles_dob ON customer_profiles(date_of_birth);
+CREATE INDEX ix_facilities_sport_type ON facilities(sport_type);
+CREATE INDEX ix_facilities_active ON facilities(is_active) WHERE is_active;
+CREATE INDEX ix_resources_facility ON facility_resources(facility_id);
+CREATE INDEX ix_slots_resource_start ON facility_slots(resource_id, starts_at);
+CREATE INDEX ix_slots_start ON facility_slots(starts_at);
+CREATE INDEX ix_slots_active ON facility_slots(resource_id, starts_at) WHERE is_active;
+CREATE INDEX ix_products_category ON products(category_id);
+CREATE INDEX ix_products_active_name ON products(name) WHERE is_active;
+CREATE INDEX ix_carts_account ON carts(account_user_id);
+CREATE INDEX ix_cart_items_cart ON cart_items(cart_id);
+CREATE INDEX ix_cart_items_slot ON cart_items(facility_slot_id) WHERE facility_slot_id IS NOT NULL;
+CREATE INDEX ix_cart_items_product ON cart_items(product_id) WHERE product_id IS NOT NULL;
+CREATE INDEX ix_cart_items_profile ON cart_items(customer_profile_id) WHERE customer_profile_id IS NOT NULL;
+CREATE INDEX ix_coupons_active ON coupons(is_active) WHERE is_active;
+CREATE INDEX ix_coupons_validity ON coupons(valid_from, valid_until);
+CREATE INDEX ix_bookings_account_status ON bookings(account_user_id, booking_status);
+CREATE INDEX ix_bookings_slot ON bookings(facility_slot_id);
+CREATE INDEX ix_orders_account_created ON orders(account_user_id, created_at DESC);
+CREATE INDEX ix_order_items_order ON order_items(order_id);
+CREATE INDEX ix_order_items_product ON order_items(product_id) WHERE product_id IS NOT NULL;
+CREATE INDEX ix_redemptions_coupon_account ON coupon_redemptions(coupon_id, account_user_id);
+CREATE INDEX ix_redemptions_account ON coupon_redemptions(account_user_id);
+CREATE INDEX ix_redemptions_coupon ON coupon_redemptions(coupon_id);
