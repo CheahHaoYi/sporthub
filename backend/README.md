@@ -18,17 +18,17 @@ Or point `DATABASE_URL`, `DATABASE_USERNAME`, and `DATABASE_PASSWORD` at your ow
 
 ```sh
 cd backend
-mvn clean test
+mvn test
 mvn verify
 mvn spring-boot:run
 ```
 
-`mvn clean test` runs TestNG unit tests through Surefire and `src/test/resources/testng.xml`. `mvn verify` additionally runs integration tests selected by `src/test/resources/testng-it.xml` through Failsafe and writes JaCoCo HTML to `target/site/jacoco`. Run one class with `mvn -Dtest=SomeTest test`; select groups with `-Dgroups=unit`. Integration tests use `*IT.java` and `-Dit.test=SomeIT verify`.
+`mvn test` runs TestNG unit tests through Surefire and `src/test/resources/testng.xml`. `mvn verify` additionally runs `*IT.java` integration tests through Failsafe and writes JaCoCo HTML to `target/site/jacoco`. The integration suite uses Testcontainers and requires Docker. Run the unit group with `mvn -Dgroups=unit test`; run the full unit plus integration pipeline with `mvn verify`.
 
-Hibernate schema generation is disabled (`validate`). Flyway reads the database agent's migrations, never migrations copied into this project. The checked-in database migration files currently contain placeholders, so application startup and PostgreSQL integration tests remain blocked until database schemas are supplied.
+Hibernate schema generation is disabled (`validate`). Flyway reads the checked-in SQL migrations from `../database/migrations`. V1–V8 currently define identity/profiles, facilities/resources, products, discounts/coupons, carts/slots, orders/bookings/payments, indexes/constraints and demo catalogue data.
 
 ## Integration status
 
-`docs/contracts/PROJECT_CONTRACT.md` is authoritative. `docs/contracts/DATA_MODEL.md`, `docs/contracts/API_CONTRACT.md` and all current `database/migrations/*.sql` are unpopulated placeholders. Entity mappings, authentication against persisted accounts, the business endpoints and transaction/concurrency behavior cannot be safely implemented without the agreed column names, constraints and status fields. Do not interpret successful Maven compilation as a completed API.
+`docs/contracts/PROJECT_CONTRACT.md` describes the intended product. `docs/contracts/DATA_MODEL.md` and `docs/contracts/API_CONTRACT.md` are still unpopulated headings. The schema is present, but Java entity mappings, repositories, persisted-account authentication, business controllers/services and transaction/concurrency behavior are not implemented. Current backend code includes the application bootstrap, pure `PricingService`, common error response handling and Actuator/Springdoc configuration. Do not interpret successful Maven compilation as a completed booking/shop API.
 
-Payment simulation is configured with `SIMULATED_PAYMENT_OUTCOME`; no card data is accepted or stored. OpenAPI UI is exposed at `/swagger-ui.html` when the app starts.
+The payment outcome property is configured, but there is no checkout/payment service yet. No card data is accepted or stored. Springdoc registers its generated OpenAPI UI at `/swagger-ui.html` when the app starts; the current Spring Security defaults require authentication to view it, and business routes will appear only after controllers are implemented.

@@ -32,13 +32,17 @@ jobs:
       - name: Run API smoke and regression suite
         working-directory: qa/automation
         env:
-          API_BASE_URL: http://localhost:8080/api/v1
+          SYSTEM_BASE_URL: http://localhost:8080
         run: |
           cd ../../backend
-          nohup mvn spring-boot:run > /tmp/sporthub.log 2>&1 &
+          nohup env DATABASE_URL=jdbc:postgresql://localhost:5432/sporthub \
+            DATABASE_USERNAME=sporthub DATABASE_PASSWORD=sporthub \
+            DATABASE_MIGRATION_LOCATION=filesystem:../database/migrations \
+            JWT_SIGNING_SECRET=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY= \
+            mvn spring-boot:run > /tmp/sporthub.log 2>&1 &
           cd ../qa/automation
-          for attempt in $(seq 1 60); do curl --fail http://localhost:8080/actuator/health && break; sleep 2; done
-          mvn --batch-mode test -Dgroups="api regression"
+          for attempt in $(seq 1 60); do curl --fail --silent http://localhost:8080/actuator/health && break; sleep 2; done
+          mvn --batch-mode test -Dgroups=api
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -47,12 +51,50 @@ jobs:
             backend/target/surefire-reports
             backend/target/failsafe-reports
             qa/automation/target/surefire-reports
-  browser-and-performance:
+  performance-load:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_DB: sporthub, POSTGRES_USER: sporthub, POSTGRES_PASSWORD: sporthub }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U sporthub -d sporthub"
+          --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '21', cache: maven }
-      - uses: browser-actions/setup-chrome@v1
-      - name: Explain required deployed environment
-        run: echo 'UI and JMeter regression are run only when corresponding environment/configuration is provided.'
+      - name: Download Apache JMeter
+        run: |
+          curl --fail --location https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz --output /tmp/apache-jmeter.tgz
+          tar -xzf /tmp/apache-jmeter.tgz -C /tmp
+      - name: Start backend for scheduled health load check
+        run: |
+          cd backend
+          nohup env DATABASE_URL=jdbc:postgresql://localhost:5432/sporthub \
+            DATABASE_USERNAME=sporthub DATABASE_PASSWORD=sporthub \
+            DATABASE_MIGRATION_LOCATION=filesystem:../database/migrations \
+            JWT_SIGNING_SECRET=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY= \
+            mvn spring-boot:run > /tmp/sporthub-performance.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://localhost:8080/actuator/health >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/sporthub-performance.log
+          exit 1
+      - name: Run low-scale JMeter health workload
+        run: |
+          /tmp/apache-jmeter-5.6.3/bin/jmeter -n \
+            -t qa/performance/jmeter/health-load-test.jmx \
+            -Jhost=localhost -Jport=8080 \
+            -Jthreads=5 -Jramp=5 -Jloops=5 \
+            -l /tmp/sporthub-health-load.jtl -e -o /tmp/sporthub-health-report
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-health-load-report
+          path: |
+            /tmp/sporthub-health-load.jtl
+            /tmp/sporthub-health-report
+            /tmp/sporthub-performance.log

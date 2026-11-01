@@ -8,4 +8,4 @@
 | UI | Selenium + TestNG | Customer/admin workflows and rendered totals |
 | Performance | JMeter | Latency, throughput, saturation and competing writes |
 
-Backend runs `*Test.java` with Surefire and TestNG and `*IT.java` with Failsafe. The Maven suite files keep these suites separate. QA automation is a separately runnable Maven project. PostgreSQL, not H2, is required for database/concurrency behavior. Current Java tests are an initial setup; schema-driven suites await completed database migrations and route implementation.
+Backend runs `*Test.java` with Surefire/TestNG and `*IT.java` with Failsafe/TestNG. The Maven suite files keep these suites separate. QA automation is a separately runnable Maven project. PostgreSQL, not H2, is used for migrations, constraints, transaction and concurrency behavior. The migrations and some database tests exist; feature-level API/business tests await booking, cart, checkout and authentication implementations.

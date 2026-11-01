@@ -8,17 +8,6 @@ permissions:
 jobs:
   backend:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: sporthub
-          POSTGRES_USER: sporthub
-          POSTGRES_PASSWORD: sporthub
-        ports: [5432:5432]
-        options: >-
-          --health-cmd "pg_isready -U sporthub -d sporthub"
-          --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -26,13 +15,9 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - name: Build and run TestNG unit tests
+      - name: Build and run TestNG unit and integration tests
         working-directory: backend
         env:
-          DATABASE_URL: jdbc:postgresql://localhost:5432/sporthub
-          DATABASE_USERNAME: sporthub
-          DATABASE_PASSWORD: sporthub
-          DATABASE_MIGRATION_LOCATION: filesystem:../database/migrations
           JWT_SIGNING_SECRET: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
         run: mvn --batch-mode clean verify
       - uses: actions/upload-artifact@v4
@@ -52,15 +37,26 @@ jobs:
           node-version: 22
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
-      - name: Frontend tests (when provided)
+        run: npm ci
+      - name: Frontend tests
         working-directory: frontend
-        run: npm run test --if-present -- --run
-      - name: Frontend production build (when provided)
+        run: npm run test
+      - name: Frontend production build
         working-directory: frontend
-        run: npm run build --if-present
+        run: npm run build
   qa-automation:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: sporthub
+          POSTGRES_USER: sporthub
+          POSTGRES_PASSWORD: sporthub
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U sporthub -d sporthub"
+          --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -68,6 +64,50 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - name: Compile independent QA project
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: browser-actions/setup-chrome@v1
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Start backend for API smoke checks
+        env:
+          DATABASE_URL: jdbc:postgresql://localhost:5432/sporthub
+          DATABASE_USERNAME: sporthub
+          DATABASE_PASSWORD: sporthub
+          DATABASE_MIGRATION_LOCATION: filesystem:../database/migrations
+          JWT_SIGNING_SECRET: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+        run: |
+          cd backend
+          nohup mvn --batch-mode spring-boot:run > /tmp/sporthub-backend.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail http://localhost:8080/actuator/health >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/sporthub-backend.log
+          exit 1
+      - name: Start frontend for Selenium smoke checks
+        run: |
+          cd frontend
+          nohup npm run dev -- --host 0.0.0.0 > /tmp/sporthub-frontend.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail http://localhost:5173/ >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/sporthub-frontend.log
+          exit 1
+      - name: Run REST Assured and Selenium smoke/sanity suites
         working-directory: qa/automation
-        run: mvn --batch-mode -DskipTests test
+        env:
+          SYSTEM_BASE_URL: http://localhost:8080
+          UI_BASE_URL: http://localhost:5173
+          BROWSER_HEADLESS: 'true'
+        run: mvn --batch-mode clean test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-api-and-browser-reports
+          path: qa/automation/target/surefire-reports
