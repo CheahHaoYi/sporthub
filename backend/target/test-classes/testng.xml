@@ -1,0 +1,4 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="backend-unit-tests" parallel="methods" thread-count="4">
+  <test name="unit"><groups><run><include name="unit"/></run></groups><packages><package name="com.sporthub.*"/></packages></test>
+</suite>

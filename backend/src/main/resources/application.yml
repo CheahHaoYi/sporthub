@@ -1,3 +1,29 @@
 spring:
   application:
     name: sporthub
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/sporthub}
+    username: ${DATABASE_USERNAME:sporthub}
+    password: ${DATABASE_PASSWORD:sporthub}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: ${DATABASE_MIGRATION_LOCATION:filesystem:../database/migrations}
+  jackson:
+    time-zone: Asia/Singapore
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+server:
+  port: ${SERVER_PORT:8080}
+sporthub:
+  jwt:
+    secret: ${JWT_SIGNING_SECRET}
+    expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+  payment:
+    outcome: ${SIMULATED_PAYMENT_OUTCOME:SUCCESS}

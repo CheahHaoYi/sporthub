@@ -1,0 +1,2 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="backend-integration-tests"><test name="integration"><groups><run><include name="integration"/></run></groups><packages><package name="com.sporthub.*"/></packages></test></suite>

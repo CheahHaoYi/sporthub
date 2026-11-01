@@ -1,9 +1,73 @@
-name: CI
-
-on: [push, pull_request]
-
+name: SportHub CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
 jobs:
-  placeholder:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: sporthub
+          POSTGRES_USER: sporthub
+          POSTGRES_PASSWORD: sporthub
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U sporthub -d sporthub"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build and run TestNG unit tests
+        working-directory: backend
+        env:
+          DATABASE_URL: jdbc:postgresql://localhost:5432/sporthub
+          DATABASE_USERNAME: sporthub
+          DATABASE_PASSWORD: sporthub
+          DATABASE_MIGRATION_LOCATION: filesystem:../database/migrations
+          JWT_SIGNING_SECRET: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+        run: mvn --batch-mode clean verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-test-and-coverage-reports
+          path: |
+            backend/target/surefire-reports
+            backend/target/failsafe-reports
+            backend/target/site/jacoco
+  frontend:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Placeholder CI workflow"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+      - name: Frontend tests (when provided)
+        working-directory: frontend
+        run: npm run test --if-present -- --run
+      - name: Frontend production build (when provided)
+        working-directory: frontend
+        run: npm run build --if-present
+  qa-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Compile independent QA project
+        working-directory: qa/automation
+        run: mvn --batch-mode -DskipTests test

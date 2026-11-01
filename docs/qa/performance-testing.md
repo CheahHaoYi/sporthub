@@ -1,0 +1,3 @@
+# Performance testing approach
+
+The JMeter plans live under `qa/performance/jmeter`. Configure server, API prefix, user CSV, credential variables and target data per plan. Run GUI for local editing; execute a plan headlessly with `jmeter -n -t qa/performance/jmeter/browse-facilities.jmx -l results.jtl -e -o report/`. Keep result files outside version control. Review throughput, error percentage and p95/p99 latency together; rising latency with falling throughput signals saturation. Do not use a high-load profile in every PR. The example 100-user/60-second ramp and 500ms search p95 are demonstration targets, not validated capacity claims.
