@@ -1,6 +1,6 @@
 # Deploying the frontend to GitHub Pages
 
-The `Deploy frontend to GitHub Pages` workflow publishes the Vite production build from `frontend/dist` whenever `main` is updated. It runs the frontend tests before deployment. It also builds with the repository path (`/<repository>/`) and publishes `404.html` as the app shell so React Router links continue to load when a visitor refreshes a nested page.
+The `Deploy frontend to GitHub Pages` workflow publishes the Vite production build from `frontend/dist` whenever `main` is updated. It runs the frontend tests before deployment. It builds with the repository path (`/<repository>/`), configures React Router to keep every page beneath that path, and publishes `404.html` as the app shell so nested pages continue to load when refreshed. For this repository, the site root is `https://cheahhaoyi.github.io/sporthub/`; routes such as facilities and products remain under `/sporthub/` and do not use the portfolio site's root paths.
 
 ## Enable Pages
 
