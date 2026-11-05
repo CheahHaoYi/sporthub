@@ -44,7 +44,7 @@ The frontend is written as if the API routes exist. For example, `facilityApi.li
 
 The backend's `PricingService` is currently a **pure Java class**: it classifies a customer by age on an appointment date and calculates a facility price. It does not query PostgreSQL. `GlobalExceptionHandler` describes how a future REST API can format validation and unexpected errors, but without controllers it does not create endpoints by itself.
 
-The database migrations are more complete than the backend implementation. They define accounts/profiles, facilities/resources, products/inventory, discounts/coupons, carts, bookings, orders, payments and constraints. For example, V6 adds a partial unique index so one slot cannot have two confirmed bookings. A SQL constraint is a database-enforced rule; it can protect stored data even when multiple requests race, but it does not implement the booking API or the user-facing error response.
+The database migrations are more complete than the backend implementation. They define accounts/profiles, facilities/resources, products/inventory, discounts/coupons, carts, bookings, orders, payments and constraints. For example, V7 adds a partial unique index so one slot cannot have two confirmed bookings. A SQL constraint is a database-enforced rule; it can protect stored data even when multiple requests race, but it does not implement the booking API or the user-facing error response.
 
 ## 3. Important files
 
@@ -155,7 +155,7 @@ Frontend tests (Vitest):
 
 ```sh
 cd frontend
-npm run test
+npm test
 ```
 
 The independent API/browser automation project is run from `qa/automation` with `mvn test`; it needs the backend and frontend running and Chrome installed. It checks public health, default security on the OpenAPI route and current frontend form/guard behavior. It does not check facility API behavior because the backend has no `/facilities` controller.
@@ -168,7 +168,7 @@ Tests can look at different amounts of the system:
 
 - **Unit test:** checks one small piece of code in isolation. In this repository, `PricingServiceTest` checks age classification and price calculation without a server or database.
 - **Integration test:** checks that parts work together, such as Java, PostgreSQL migrations, constraints and transactions. `PostgresApplicationIT` now implements these schema-level checks; no business repository/service tests exist yet.
-- **API test:** sends HTTP requests to an API and checks status, headers or response data. API describes how the test interacts with the application; it can be used at different test scopes. The current REST Assured test calls `/facilities`, but the backend does not implement it.
+- **API test:** sends HTTP requests to an API and checks status, headers or response data. API describes how the test interacts with the application; it can be used at different test scopes. The current REST Assured tests call health and Springdoc paths that exist today; there is no business API endpoint yet.
 - **System test:** checks the application as a whole against requirements, often through its public interfaces and real supporting services.
 - **End-to-end (E2E) test:** follows a user journey across the interface and backend, for example register → select a court slot → checkout → see confirmation. No such browser test exists in the repo today.
 - **Acceptance test:** checks whether a user/business requirement is met, such as “a confirmed slot cannot be booked a second time.” Acceptance describes the purpose/criteria and may be tested by a person or automated at several layers.

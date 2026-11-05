@@ -51,8 +51,8 @@ graph TB
 | **Framework** | Spring Boot 3.4.5 (spring-boot-starter-web, data-jpa, security, validation, actuator) |
 | **Language** | Java 21 |
 | **Build** | Maven (`pom.xml`), single module |
-| **Entry Point** | [`SportHubApplication.java`](file:///home/haoyi/projects/ai/sporthub/backend/src/main/java/com/sporthub/SportHubApplication.java) |
-| **Config** | [`application.yml`](file:///home/haoyi/projects/ai/sporthub/backend/src/main/resources/application.yml) — env-var driven (DATABASE_URL, JWT_SIGNING_SECRET, etc.) |
+| **Entry Point** | [`SportHubApplication.java`](backend/src/main/java/com/sporthub/SportHubApplication.java) |
+| **Config** | [`application.yml`](backend/src/main/resources/application.yml) — env-var driven (DATABASE_URL, JWT_SIGNING_SECRET, etc.) |
 | **API docs** | springdoc-openapi (`/v3/api-docs`), protected behind Spring Security |
 
 ### Source Structure
@@ -79,7 +79,7 @@ backend/src/main/java/com/sporthub/
 - **JWT authentication** using jjwt (io.jsonwebtoken), with configurable secret and expiration
 - **Simulated payments** — the payment outcome is configurable via `SIMULATED_PAYMENT_OUTCOME` env var
 - **Timezone**: Asia/Singapore (Jackson serialization)
-- **Docker**: [`compose.yaml`](file:///home/haoyi/projects/ai/sporthub/backend/compose.yaml) available for local development
+- **Docker**: [`compose.yaml`](backend/compose.yaml) available for local development
 
 ---
 
@@ -145,7 +145,7 @@ frontend/src/
 
 ### API Client Architecture
 
-The [API client](file:///home/haoyi/projects/ai/sporthub/frontend/src/api/client.ts) uses Axios with:
+The [API client](frontend/src/api/client.ts) uses Axios with:
 - **Request interceptor**: automatically attaches JWT from `localStorage` as `Bearer` token
 - **Response interceptor**: on 401, clears auth state and dispatches `sporthub:unauthorized` event
 - **Base URL**: configurable via `VITE_API_BASE_URL` env var (defaults to `http://localhost:8080/api/v1`)
@@ -157,7 +157,7 @@ The [API client](file:///home/haoyi/projects/ai/sporthub/frontend/src/api/client
 ### Migration Strategy
 
 - **Tool**: Flyway (integrated into Spring Boot)
-- **8 versioned SQL migrations** in [`database/migrations/`](file:///home/haoyi/projects/ai/sporthub/database/migrations)
+- **8 versioned SQL migrations** in [`database/migrations/`](database/migrations)
 - Migrations are stored **outside** the backend, shared as a project-level concern
 - Schema is referenced from backend via `filesystem:../database/migrations`
 
@@ -165,14 +165,14 @@ The [API client](file:///home/haoyi/projects/ai/sporthub/frontend/src/api/client
 
 | Migration | Tables Created |
 |---|---|
-| [V1](file:///home/haoyi/projects/ai/sporthub/database/migrations/V1__create_identity_and_profiles.sql) | `app_users`, `customer_profiles` |
-| [V2](file:///home/haoyi/projects/ai/sporthub/database/migrations/V2__create_facilities_and_resources.sql) | `facilities`, `facility_resources` |
-| [V3](file:///home/haoyi/projects/ai/sporthub/database/migrations/V3__create_products_and_inventory.sql) | `product_categories`, `products` |
-| [V4](file:///home/haoyi/projects/ai/sporthub/database/migrations/V4__create_discount_policies_and_coupons.sql) | Discount policies, coupons |
-| [V5](file:///home/haoyi/projects/ai/sporthub/database/migrations/V5__create_carts_and_cart_items.sql) | `carts`, `facility_slots`, `cart_items` |
-| [V6](file:///home/haoyi/projects/ai/sporthub/database/migrations/V6__create_orders_bookings_and_payments.sql) | `orders`, `bookings`, `order_items`, `coupon_redemptions`, `payments` |
-| [V7](file:///home/haoyi/projects/ai/sporthub/database/migrations/V7__create_indexes_and_integrity_constraints.sql) | Additional indexes and constraints |
-| [V8](file:///home/haoyi/projects/ai/sporthub/database/migrations/V8__seed_demo_catalogue.sql) | Demo seed data (5 facilities, products) |
+| [V1](database/migrations/V1__create_identity_and_profiles.sql) | `app_users`, `customer_profiles` |
+| [V2](database/migrations/V2__create_facilities_and_resources.sql) | `facilities`, `facility_resources` |
+| [V3](database/migrations/V3__create_products_and_inventory.sql) | `product_categories`, `products` |
+| [V4](database/migrations/V4__create_discount_policies_and_coupons.sql) | Discount policies, coupons |
+| [V5](database/migrations/V5__create_carts_and_cart_items.sql) | `carts`, `facility_slots`, `cart_items` |
+| [V6](database/migrations/V6__create_orders_bookings_and_payments.sql) | `orders`, `bookings`, `order_items`, `coupon_redemptions`, `payments` |
+| [V7](database/migrations/V7__create_indexes_and_integrity_constraints.sql) | Additional indexes and constraints |
+| [V8](database/migrations/V8__seed_demo_catalogue.sql) | Demo seed data (5 facilities, products) |
 
 ### Entity Relationship Diagram
 
@@ -211,7 +211,7 @@ erDiagram
 
 ## 4. Testing Architecture
 
-The project has a **four-layer testing strategy** spanning three separate projects:
+The project has testing at five scopes—backend unit, backend integration, frontend component, external API/browser automation, and performance—across separate projects. This diagram shows learning/debugging relationships; CI runs backend, frontend and QA jobs in parallel:
 
 ```mermaid
 graph LR
@@ -224,7 +224,7 @@ graph LR
     subgraph Layer3["Layer 3: Frontend Unit Tests"]
         FU["Vitest + Testing Library + jsdom"]
     end
-    subgraph Layer4["Layer 4: QA Automation (E2E)"]
+    subgraph Layer4["Layer 4: QA Automation (API/UI Smoke and Sanity)"]
         QA_API["REST Assured API Smoke/Sanity"]
         QA_UI["Selenium WebDriver UI Smoke/Sanity"]
     end
@@ -232,7 +232,10 @@ graph LR
         PERF["Apache JMeter"]
     end
 
-    Layer1 --> Layer2 --> Layer3 --> Layer4 --> Layer5
+    Layer1 --> Layer2
+    Layer3 --> Layer4
+    Layer2 --> Layer4
+    Layer4 --> Layer5
 ```
 
 ---
@@ -243,19 +246,19 @@ graph LR
 |---|---|
 | **Framework** | TestNG 7.10.2 (JUnit excluded from spring-boot-starter-test) |
 | **Mocking** | Mockito (with inline MockMaker) |
-| **Runner** | Maven Surefire with [`testng.xml`](file:///home/haoyi/projects/ai/sporthub/backend/src/test/resources/testng.xml) |
+| **Runner** | Maven Surefire with [`testng.xml`](backend/src/test/resources/testng.xml) |
 | **Parallelism** | `parallel="methods" thread-count="4"` |
 | **Groups** | `unit` |
 | **Coverage** | JaCoCo 0.8.12 |
 
 **Test files:**
 
-- [`PricingServiceTest.java`](file:///home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java) — **8 test methods** covering:
+- [`PricingServiceTest.java`](backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java) — **8 test methods** (11 data/test invocations including four age rows) covering:
   - Age boundary classification (data-driven via `@DataProvider`)
   - Child/adult/senior discount calculation with currency rounding
   - Edge cases: zero price, rounding to 2 decimal places
   - Negative cases: birth after appointment, negative price, null inputs
-- [`GlobalExceptionHandlerTest.java`](file:///home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/common/GlobalExceptionHandlerTest.java) — **1 test method** verifying:
+- [`GlobalExceptionHandlerTest.java`](backend/src/test/java/com/sporthub/common/GlobalExceptionHandlerTest.java) — **1 test method** verifying:
   - 500 responses use generic messages (no internal details leaked)
   - Response includes request path, timestamp, and error code
 
@@ -273,12 +276,12 @@ graph LR
 | **Framework** | TestNG (extends `AbstractTestNGSpringContextTests`) |
 | **Container** | Testcontainers PostgreSQL (`postgres:16-alpine`) |
 | **HTTP Testing** | REST Assured 5.5.1 |
-| **Runner** | Maven Failsafe with [`testng-it.xml`](file:///home/haoyi/projects/ai/sporthub/backend/src/test/resources/testng-it.xml) |
+| **Runner** | Maven Failsafe with [`testng-it.xml`](backend/src/test/resources/testng-it.xml) |
 | **Groups** | `integration`, `system`, `smoke`, `sanity` |
 
 **Test file:**
 
-[`PostgresApplicationIT.java`](file:///home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java) — **5 test methods**:
+[`PostgresApplicationIT.java`](backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java) — **6 test methods**:
 
 | Test | Groups | What it verifies |
 |---|---|---|
@@ -305,8 +308,8 @@ graph LR
 | **DOM** | jsdom |
 | **Testing utilities** | @testing-library/react 16.1, @testing-library/user-event 14.5, @testing-library/jest-dom 6.6 |
 | **Coverage** | @vitest/coverage-v8 (text + html reporters) |
-| **Config** | [`vite.config.ts`](file:///home/haoyi/projects/ai/sporthub/frontend/vite.config.ts) (test block inline) |
-| **Setup** | [`testSetup.ts`](file:///home/haoyi/projects/ai/sporthub/frontend/src/testSetup.ts) |
+| **Config** | [`vite.config.ts`](frontend/vite.config.ts) (test block inline) |
+| **Setup** | [`testSetup.ts`](frontend/src/testSetup.ts) |
 
 **Test locations:**
 
@@ -320,24 +323,24 @@ frontend/
 ```
 
 > [!NOTE]
-> The `tests/` subdirectories are currently **empty**. The only frontend test file is [`Pages.test.tsx`](file:///home/haoyi/projects/ai/sporthub/frontend/src/pages/Pages.test.tsx) co-located with the page components.
+> The `tests/` subdirectories are currently **empty**. The only frontend test file is [`Pages.test.tsx`](frontend/src/pages/Pages.test.tsx) co-located with the page components.
 
 **NPM scripts:**
-- `npm run test` → `vitest run`
+- `npm test` → `vitest run`
 - `npm run test:coverage` → `vitest run --coverage`
 
 ---
 
-### 4.4 QA Automation — E2E Tests (Separate Maven Project)
+### 4.4 QA Automation — API and Browser Smoke/Sanity (Separate Maven Project)
 
 | Aspect | Detail |
 |---|---|
-| **Location** | [`qa/automation/`](file:///home/haoyi/projects/ai/sporthub/qa/automation) — **independent Maven project** |
+| **Location** | [`qa/automation/`](qa/automation) — **independent Maven project** |
 | **Framework** | TestNG 7.10.2 |
 | **API Testing** | REST Assured 5.5.1 |
 | **UI Testing** | Selenium WebDriver 4.29 + WebDriverManager 5.9.3 |
-| **Config** | [`TestConfig.java`](file:///home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/base/TestConfig.java) — env-var / system-property driven URLs |
-| **Suite** | [`testng.xml`](file:///home/haoyi/projects/ai/sporthub/qa/automation/src/test/resources/testng.xml) |
+| **Config** | [`TestConfig.java`](qa/automation/src/test/java/com/sporthub/qa/base/TestConfig.java) — env-var / system-property driven URLs |
+| **Suite** | [`testng.xml`](qa/automation/src/test/resources/testng.xml) |
 
 **Structure follows the Page Object Model (POM) pattern:**
 
@@ -355,14 +358,14 @@ qa/automation/src/test/java/com/sporthub/qa/
     └── PublicUiSmokeTest.java  # Selenium browser smoke tests
 ```
 
-**API Tests** ([`PlatformApiTest.java`](file:///home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/api/PlatformApiTest.java)):
+**API Tests** ([`PlatformApiTest.java`](qa/automation/src/test/java/com/sporthub/qa/api/PlatformApiTest.java)):
 
 | Test | Groups | What it verifies |
 |---|---|---|
 | `healthEndpointAndDatabaseAreAvailable` | api, smoke | Actuator health returns 200 + UP |
 | `springdocMetadataIsProtectedByDefaultSecurity` | api, sanity | OpenAPI docs require auth (401) |
 
-**UI Tests** ([`PublicUiSmokeTest.java`](file:///home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/ui/PublicUiSmokeTest.java)):
+**UI Tests** ([`PublicUiSmokeTest.java`](qa/automation/src/test/java/com/sporthub/qa/ui/PublicUiSmokeTest.java)):
 
 | Test | Groups | What it verifies |
 |---|---|---|
@@ -382,7 +385,7 @@ qa/automation/src/test/java/com/sporthub/qa/
 
 | Aspect | Detail |
 |---|---|
-| **Location** | [`qa/performance/jmeter/`](file:///home/haoyi/projects/ai/sporthub/qa/performance/jmeter) |
+| **Location** | [`qa/performance/jmeter/`](qa/performance/jmeter) |
 | **Tool** | Apache JMeter 5.6.3 |
 
 **7 JMeter test plans (.jmx):**
@@ -390,18 +393,18 @@ qa/automation/src/test/java/com/sporthub/qa/
 | Test Plan | Focus |
 |---|---|
 | `health-smoke.jmx` | Basic health endpoint smoke |
-| `health-load-test.jmx` | Health endpoint under load |
-| `browse-facilities.jmx` | Facility browsing performance |
-| `product-search.jmx` | Product search performance |
-| `checkout-load-test.jmx` | Checkout flow under load |
-| `concurrent-booking.jmx` | Concurrent booking (double-booking prevention) |
-| `concurrent-purchase.jmx` | Concurrent product purchase |
+| `health-load-test.jmx` | Small health-endpoint workload only; historical 2026-11-05 run returned 25 HTTP 200 samples |
+| `browse-facilities.jmx` | Blocked template: no backend facility route; recorded run returned 401 |
+| `product-search.jmx` | Blocked template: no backend product route; recorded run returned 401 |
+| `checkout-load-test.jmx` | Blocked template: no checkout route; recorded run returned 401 |
+| `concurrent-booking.jmx` | Blocked template: no booking route; recorded run returned 401 |
+| `concurrent-purchase.jmx` | Blocked template: no checkout route; recorded run returned 401 |
 
 ---
 
 ## 5. CI/CD — GitHub Actions
 
-### 5.1 CI Pipeline ([`ci.yml`](file:///home/haoyi/projects/ai/sporthub/.github/workflows/ci.yml))
+### 5.1 CI Pipeline ([`ci.yml`](.github/workflows/ci.yml))
 
 Triggered on **push to main** and **all PRs**. Runs **3 parallel jobs**:
 
@@ -418,10 +421,10 @@ graph LR
 | Job | Steps | Artifacts |
 |---|---|---|
 | **backend** | `mvn clean verify` (Surefire unit + Failsafe integration) | Surefire + Failsafe + JaCoCo reports |
-| **frontend** | `npm ci` → `npm run test` → `npm run build` | — |
+| **frontend** | `npm ci` → `npm test` → `npm run build` | — |
 | **qa-automation** | Start Postgres service → Start backend → Start frontend → `mvn test` (QA suite) | QA Surefire reports |
 
-### 5.2 Nightly Regression ([`nightly-regression.yml`](file:///home/haoyi/projects/ai/sporthub/.github/workflows/nightly-regression.yml))
+### 5.2 Nightly Regression ([`nightly-regression.yml`](.github/workflows/nightly-regression.yml))
 
 Runs on **schedule (02:00 UTC daily)** + manual `workflow_dispatch`. Two jobs:
 
@@ -450,14 +453,14 @@ Tests are organized using TestNG groups that map to testing levels:
 
 ## 7. Documentation
 
-The [`docs/`](file:///home/haoyi/projects/ai/sporthub/docs) directory contains extensive project documentation:
+The [`docs/`](docs) directory contains project documentation; start with the [documentation index](docs/README.md):
 
 | Area | Files |
 |---|---|
 | **Requirements** | `functional-requirements.md`, `business-rules.md` |
 | **Contracts** | `API_CONTRACT.md`, `DATA_MODEL.md`, `PROJECT_CONTRACT.md` |
 | **QA Documentation** | `test-plan.md`, `test-strategy.md`, `test-cases.md`, `test-data.md`, `traceability-matrix.md`, `automation-framework.md`, `concurrency-testing.md`, `performance-testing.md` |
-| **Quality Engineering** | 12-part learning path (testing fundamentals through interview prep) in [`quality-engineering/`](file:///home/haoyi/projects/ai/sporthub/docs/quality-engineering) |
+| **Quality Engineering** | 12-part learning path in [`quality-engineering/`](docs/quality-engineering); see the [docs reading index](docs/README.md) |
 | **Bug Reports** | `bug-reports/` directory |
 | **Performance Reports** | `performance-reports/` directory |
 

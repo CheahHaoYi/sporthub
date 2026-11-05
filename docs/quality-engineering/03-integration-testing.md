@@ -16,7 +16,7 @@ Those questions cross component boundaries, so they need integration evidence. A
 
 ## 2. The database integration tests in this repository
 
-[`PostgresApplicationIT`](../../backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java) uses:
+[`PostgresApplicationIT`](../../backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java) has six `@Test` methods and uses:
 
 - `@SpringBootTest` to start the actual Spring Boot application on a random local port.
 - `AbstractTestNGSpringContextTests` so Spring's test context and dependency injection work with TestNG.
@@ -33,7 +33,7 @@ The tests check:
 
 1. Flyway applied the eight versioned migrations and the demo facility/product data exists.
 2. A test account can be inserted and queried from PostgreSQL.
-3. A second confirmed booking for the same seeded slot is rejected by the real partial unique index in V6.
+3. A second confirmed booking for the same seeded slot is rejected by the real partial unique index in V7.
 4. A Spring `TransactionTemplate` rolls back a user row when a later operation throws.
 5. The embedded application reports public health status `UP` over HTTP.
 6. Spring Security rejects unauthenticated access to the generated OpenAPI route with HTTP 401.

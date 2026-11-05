@@ -29,9 +29,9 @@ Performance testing studies how a system behaves as workload changes. It can rev
 
 ## 3. Runnable plan and current limitations
 
-The original plans in `qa/performance/jmeter/` target planned `/facilities`, `/products` and `/checkout` endpoints. The backend currently does not implement those routes, so those plans cannot produce meaningful application workflow performance results.
+The feature plans in `qa/performance/jmeter/` target planned `/facilities`, `/products` and `/checkout` endpoints. The backend currently does not implement those routes, so those plans cannot produce meaningful application workflow performance results. They also default to the missing `qa/performance/test-users.csv` and empty token, and their broad 2xx/4xx response-code assertions do not establish a business result. The recorded 2026-11-05 run returned HTTP 401 for all 10 samples in each of five feature plans.
 
-I added two executable plans for an endpoint that exists today:
+Two executable plans for an endpoint that exists today:
 
 - `health-smoke.jmx`: one request to `/actuator/health`, a small readiness check before a longer run.
 - `health-load-test.jmx`: a configurable low-scale load check against that same endpoint. Defaults are five threads, five-second ramp-up and five iterations per thread. These defaults are a learning exercise, not a production capacity claim.

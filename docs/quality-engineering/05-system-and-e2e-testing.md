@@ -1,4 +1,4 @@
-# 05 — System and end-to-end testing with Selenium
+# 05 — System and browser testing with Selenium
 
 ## 1. System test versus end-to-end test
 
@@ -10,7 +10,7 @@ In this repository, `PostgresApplicationIT` checks Spring Boot, PostgreSQL migra
 
 ## 2. Frontend component tests with Vitest and React Testing Library
 
-[`Pages.test.tsx`](../../frontend/src/pages/Pages.test.tsx) contains 13 focused UI tests. They were derived from behavior already implemented in `Pages.tsx`, the React route guards and the intended API response states:
+[`Pages.test.tsx`](../../frontend/src/pages/Pages.test.tsx) contains 15 focused UI tests. They were derived from behavior already implemented in `Pages.tsx`, the React route guards and the intended API response states:
 
 - Login and registration fields must satisfy browser form validation, and an under-age registration must show an error.
 - Facility/product pages display empty and error states; facility detail lets a customer select a returned slot and profile.
@@ -19,7 +19,7 @@ In this repository, `PostgresApplicationIT` checks Spring Boot, PostgreSQL migra
 
 The methodology is arrange–act–assert: Vitest mocks the API/AuthContext, React Testing Library renders the page inside `MemoryRouter`, `fireEvent` performs user actions, and `findBy...`/`waitFor` waits for asynchronous UI updates before checking visible text, attributes or mock calls. This keeps the tests repeatable without a running backend or PostgreSQL.
 
-These tests prove how the component responds to the chosen mock data. They do not prove that a real HTTP endpoint exists, that the server calculates the totals correctly, or that database state changes. Those checks belong to API and integration tests.
+For each case, Arrange is the configured API/Auth mock and initial route, Act is the rendered UI interaction, and Assert is the visible text/attribute or mock call. A mock response proves how the page handles that controlled response only; it does not prove a real HTTP endpoint exists, that the server calculates totals correctly, or that database state changes. Those checks belong to API and integration tests.
 
 ## 3. Selenium basics
 
@@ -53,7 +53,7 @@ A **test fixture** is setup and cleanup around a test. In the Selenium suite, th
 2. Client-side registration rejects a child account with the visible 18+ message before sending an API request.
 3. A stored `CUSTOMER` role is redirected away from `/admin` to login by the React route guard.
 
-These are browser smoke/sanity checks of implemented frontend behavior. The third test proves only that the client route guard works. Real authorization must be enforced by the backend too; no backend authorization layer exists yet.
+These are browser smoke/sanity checks of implemented frontend behavior. `@BeforeMethod` creates fresh Chrome, page-object locators find inputs, explicit waits observe rendered results, and `@AfterMethod(alwaysRun=true)` quits the browser even after failure. The first case asserts input types/required attributes and button visibility; the second asserts the age-validation message; the third asserts redirect to `/login`. The third proves only that the client route guard works. Real authorization must be enforced by the backend too; no backend authorization layer exists yet.
 
 The negative registration test fills realistic values and uses the native date-input value setter so React observes the selected under-age date. It then asserts the visible error message. The expectation comes from the actual `Register` component in `frontend/src/pages/Pages.tsx`.
 
@@ -62,7 +62,7 @@ The negative registration test fills realistic values and uses the native date-i
 Run the fast component suite from `frontend/` (no database or backend required):
 
 ```sh
-npm run test
+npm test
 ```
 
 The TestNG Selenium checks require the Vite frontend and Chrome:

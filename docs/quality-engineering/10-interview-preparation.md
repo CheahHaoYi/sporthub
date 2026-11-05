@@ -80,7 +80,7 @@ For each question, first understand what the interviewer is checking. Then pract
 
 **Interview answer:** “I would recheck availability inside a transaction while acquiring the appropriate database lock or using a conditional write, then rely on a database uniqueness/capacity constraint as a final invariant. I would test two independent requests synchronized at the boundary and assert one winner, a conflict for the other, and one confirmed row.”
 
-**SportHub example:** V6 has a partial unique index on `facility_slot_id` for confirmed bookings. The current integration test exercises it sequentially; a concurrent API race test waits on the missing booking service.
+**SportHub example:** V7 has a partial unique index on `facility_slot_id` for confirmed bookings. The current integration test exercises it sequentially; a concurrent API race test waits on the missing booking service.
 
 ## 9. How would you test a discount calculation?
 

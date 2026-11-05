@@ -6,7 +6,7 @@ An **API** is a defined way for one program to ask another program to do somethi
 
 **HTTP** is the request/response protocol used by a browser and a web server. A request commonly contains a method, URL, headers and sometimes a body. The response contains a status code, headers and sometimes a body.
 
-**REST** is a common style for HTTP APIs. It represents things as resources and uses HTTP methods to describe actions:
+**REST** is a common style for HTTP APIs. It represents things as resources and uses HTTP methods to describe actions. The paths below are frontend calls and remain **Planned/Blocked** until a matching backend controller exists:
 
 | Method | Usual meaning | SportHub example from frontend calls |
 |---|---|---|
@@ -68,7 +68,7 @@ REST Assured is a Java library for building HTTP requests and asserting response
 - `backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java` calls the random-port embedded Spring server while the PostgreSQL Testcontainer is running. It checks the public health status and confirms unauthenticated `/v3/api-docs` access is rejected.
 - `qa/automation/src/test/java/com/sporthub/qa/api/PlatformApiTest.java` checks the same real running app from a separately launched test process. That separation exercises the network boundary.
 
-The API tests are meaningful because they assert HTTP status codes and the public health JSON status. The prior facility-list smoke test only expected `GET /facilities` to work, even though no such controller exists; it has been replaced with checks for routes that really exist.
+These checks send real HTTP requests to the running server. They assert HTTP status codes and, for health, the public health JSON status. The `/v3/api-docs` 401 is evidence of current default Spring Security behavior, not an application authentication contract. The prior facility-list smoke test only expected `GET /facilities` to work, even though no such controller exists; it has been replaced with checks for routes that really exist.
 
 Run the embedded-server API checks as part of `cd backend && mvn verify`. Run external API checks after starting the app:
 

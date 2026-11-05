@@ -18,13 +18,13 @@ This repository builds and tests code, but the current workflow does not deploy 
 
 [`/.github/workflows/ci.yml`](../../.github/workflows/ci.yml) runs on pushes to `main` and on pull requests. It has three jobs:
 
-1. **Backend:** Java 21 and Maven run `mvn clean verify`. TestNG unit tests run first; Failsafe starts a real PostgreSQL Testcontainer for integration/system checks; JaCoCo writes coverage. The Testcontainers integration tests require the runner's Docker service.
+1. **Backend:** Java 21 and Maven run `mvn clean verify`. TestNG unit tests run first; Failsafe starts a real PostgreSQL Testcontainer for integration/system checks; JaCoCo writes coverage. Docker must be available to Testcontainers.
 2. **Frontend:** Node 22 installs the locked npm dependencies with `npm ci`, runs Vitest and creates the production Vite build.
 3. **QA automation:** A PostgreSQL service is started; the workflow starts Spring Boot and the Vite frontend, then runs REST Assured API and Selenium browser smoke/sanity tests. Chrome is configured headlessly. Test reports are uploaded even when a check fails.
 
 The live QA job starts the backend with its default Spring Security behavior. Health status is public; the Springdoc metadata check expects an unauthenticated 401 response. There is no application-specific authentication flow in the backend yet.
 
-Each required job must pass for the overall check to pass. A failed assertion, compilation error or build failure returns a non-zero step result. Reviewers can inspect the uploaded report to see which check failed. A protected branch can require these checks before merging; the repository settings control that last policy.
+The three jobs are independent and can run in parallel; their order in the YAML is not a serial testing pipeline. Each required job must pass for the overall check to pass. A failed assertion, compilation error or build failure returns a non-zero step result. Reviewers can inspect the uploaded report to see which check failed. A protected branch can require these checks before merging; the repository settings control that last policy.
 
 ## 3. Why these stages are separated
 
@@ -63,11 +63,11 @@ From their project directories:
 
 ```sh
 cd backend && mvn verify
-cd frontend && npm run test && npm run build
+cd frontend && npm test && npm run build
 cd qa/automation && mvn test
 ```
 
-For the independent QA suite, start PostgreSQL, backend and frontend first as shown in `doc/quality-engineering/11-learn-by-doing.md`. The QA Maven process uses `SYSTEM_BASE_URL`, `UI_BASE_URL` and `BROWSER_HEADLESS`; the API sanity test expects `/v3/api-docs` to remain protected by the current Spring Security defaults.
+For the independent QA suite, start PostgreSQL, backend and frontend first as shown in `11-learn-by-doing.md`. The QA Maven process uses `SYSTEM_BASE_URL`, `UI_BASE_URL` and `BROWSER_HEADLESS`; the API sanity test expects `/v3/api-docs` to remain protected by the current Spring Security defaults.
 
 ## 6. Exercise
 

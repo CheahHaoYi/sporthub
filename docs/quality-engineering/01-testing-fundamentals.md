@@ -18,7 +18,7 @@ Testing helps a team:
 - Communicate what the application is expected to do.
 - Make changes with better evidence and less guesswork.
 
-Booking example: if the same one-capacity court slot is accidentally confirmed twice, both customers may arrive expecting to play. A meaningful test should check the rule at the level where the application enforces it. The current database migration V6 contains a uniqueness rule for confirmed bookings, but there is not yet a backend booking API to exercise that full behavior.
+Booking example: if the same one-capacity court slot is accidentally confirmed twice, both customers may arrive expecting to play. A meaningful test should check the rule at the level where the application enforces it. The current database migration V7 contains a uniqueness rule for confirmed bookings, and the integration test checks it with sequential inserts; there is not yet a backend booking API to exercise the full workflow.
 
 ### Bugs, defects and failures
 
@@ -128,7 +128,7 @@ The word **unit** does not always mean exactly one method. The practical idea is
 - **Dependencies:** Some dependencies are real. A database integration test should use a database. Other unrelated services may still be mocked.
 - **Typical tools:** Spring Boot Test / Spring TestContext, TestNG or JUnit, Testcontainers for disposable PostgreSQL.
 - **SportHub example:** A future integration test could save and retrieve a profile using a Spring Data repository against PostgreSQL initialized by the Flyway migrations. No such backend integration test currently exists.
-- **Example case:** Insert one confirmed booking for a slot; attempt to insert another confirmed booking for the same slot; expect PostgreSQL to reject the second insert because of the V6 unique partial index.
+- **Example case:** Insert one confirmed booking for a slot; attempt a second insert for the same slot; expect PostgreSQL to reject it because of the V7 unique partial index. This proves the database constraint, not an API conflict response.
 - **Advantages:** Catches errors that isolated unit tests cannot, including schema and configuration mismatches.
 - **Limitations:** Slower and more complex to set up. Failures may involve the application, database, migration or test environment, so diagnosis can take longer.
 
@@ -142,7 +142,7 @@ The word **unit** does not always mean exactly one method. The practical idea is
 - **What is tested:** For a working SportHub API, `GET /facilities` might return HTTP 200 and a JSON list of facilities.
 - **Dependencies:** HTTP server and route; often service and database too, depending on the test setup.
 - **Typical tools:** curl or Postman for manual requests; REST Assured for automated Java tests.
-- **SportHub example:** `qa/automation/.../FacilityApiTest.java` sends a REST Assured GET to `/facilities` and checks response time and status 200. The current Spring Boot source has no route for `/facilities`, so the test describes an intended future check rather than a working end-to-end capability.
+- **SportHub example:** `PlatformApiTest` sends REST Assured requests to the implemented health route and the Springdoc route protected by default security. It does not cover planned business APIs; those remain blocked until server routes exist.
 - **Example case:** Send a valid `GET /facilities`; expect HTTP 200, JSON content type, and a body containing a facility identifier and name. The response field expectations must be based on an implemented API contract.
 - **Advantages:** Tests a stable service boundary without requiring a real browser; usually faster and easier to diagnose than a browser journey.
 - **Limitations:** It does not prove the frontend renders the response correctly or that a user can complete the journey. A test can also be wrong if it assumes an undocumented response format.
@@ -199,7 +199,7 @@ Acceptance testing is a purpose/decision. It can use tests at different technica
 | Category | Main question | Example in SportHub | Current repository evidence |
 |---|---|---|---|
 | Unit | Does this small rule behave correctly? | Does age classification return `CHILD` at age 17? | Yes: TestNG `PricingServiceTest`. |
-| Integration | Do these components work together? | Does PostgreSQL reject a duplicate confirmed slot? | Not implemented yet; schema rule exists in V6. |
+| Integration | Do these components work together? | Does PostgreSQL reject a duplicate confirmed slot? | Implemented schema constraint; sequential insert test exists, service/API behavior does not. |
 | API | Does an HTTP caller receive the expected contract? | Does `GET /facilities` return a documented facility list? | One REST Assured check exists, but backend route is absent. |
 | System | Does the application meet a feature requirement as a whole? | Does cart behavior reflect a selected booking? | Not implemented across backend currently. |
 | E2E | Can a user complete a full journey? | Sign in through order confirmation in browser. | No Selenium journey tests; backend flow is absent. |

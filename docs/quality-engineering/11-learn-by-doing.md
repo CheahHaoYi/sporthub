@@ -44,7 +44,7 @@ This stage does not start Spring, PostgreSQL, Docker or a web server. The appoin
 
 ### Expected result
 
-The TestNG report should show 12 passing invocations (four data-provider age rows, the remaining pricing cases, and the error-handler test), zero failures and zero errors. Open `backend/target/surefire-reports/` for detailed method results.
+The TestNG report should show 13 passing invocations (four data-provider age rows, the remaining pricing cases, and two error-handler tests), zero failures and zero errors. Open `backend/target/surefire-reports/` for detailed method results.
 
 - **Passed:** actual and expected values match for every case.
 - **Failed assertion:** inspect the expected/actual values and test input; a business rule may be wrong.
@@ -57,13 +57,13 @@ From `frontend/`:
 
 ```sh
 npm ci
-npm run test
+npm test
 npm run build
 ```
 
 Vitest and React Testing Library render components in a simulated DOM. The API modules are mocked in `Pages.test.tsx`, so the tests check UI behavior for controlled responses, not server/database behavior.
 
-Expected: the current `Pages.test.tsx` suite reports 13 tests passing; the production build completes TypeScript compilation and Vite bundling. A failed component assertion points to rendered page behavior. A build error may indicate a TypeScript/import/bundler problem even if the tests pass.
+Expected: the current `Pages.test.tsx` suite reports 15 tests passing; the production build completes TypeScript compilation and Vite bundling. A failed component assertion points to rendered page behavior. A build error may indicate a TypeScript/import/bundler problem even if the tests pass.
 
 ## 5. Stage C — PostgreSQL integration and embedded-server tests
 
@@ -181,3 +181,99 @@ Before adding those tests, implement and document the matching backend routes an
 5. Add JMeter browse/slot/checkout plans using synthetic data and a safe reset plan.
 
 The case catalogue and traceability matrix already provide the starting requirements, so tests can grow with real functionality rather than guessed endpoints.
+
+
+## Test types in the repo
+
+Think of a test as checking one boundary: **Arrange** the inputs and dependencies, **Act** by triggering the behavior, then **Assert** what can be observed. The wider the boundary, the more real components the test needs.
+
+| Type | Where to find it | What it checks |
+|---|---|---|
+| **Backend unit tests** | [PricingServiceTest.java](../../backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java) | Age cutoffs, facility discounts, money rounding, and invalid inputs. The real Java pricing class runs without Spring or a database. Four age examples use a TestNG data provider. |
+| **Error-handler unit tests** | [GlobalExceptionHandlerTest.java](../../backend/src/test/java/com/sporthub/common/GlobalExceptionHandlerTest.java) | Error response shape, safe messages, and validation field details. The handler is real; request and validation objects are mocked. It does not prove Spring routes HTTP errors through the handler. |
+| **Database/application integration tests** | [PostgresApplicationIT.java](../../backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java) | Spring Boot with a temporary PostgreSQL database: migrations and seeds, JDBC persistence, transaction rollback, duplicate confirmed-slot rejection, health, and OpenAPI access. The slot check is a direct, sequential database insert—not a booking API test. |
+| **Frontend component tests** | [Pages.test.tsx](../../frontend/src/pages/Pages.test.tsx) | React forms, page states, filtering, cart display, and route guards. Components run in a simulated DOM; API responses are mocked, so these tests do not prove the backend endpoints work. |
+| **External API tests** | [PlatformApiTest.java](../../qa/automation/src/test/java/com/sporthub/qa/api/PlatformApiTest.java) | REST Assured calls to a running server: health should return `200` and `UP`; unauthenticated Springdoc access currently returns `401`. |
+| **Browser tests** | [PublicUiSmokeTest.java](../../qa/automation/src/test/java/com/sporthub/qa/ui/PublicUiSmokeTest.java) | Selenium drives Chrome to check login form requirements, under-age registration feedback, and a customer’s redirect away from the admin page. These are browser checks, not full sign-in or booking journeys. |
+| **Performance plans** | [JMeter plans](../../qa/performance/jmeter) | Two plans exercise the implemented health route. Five feature plans target backend routes that do not exist yet; they are blocked templates, not product performance coverage. |
+
+The added cases are explained step by step in [Additional implemented cases](../../docs/quality-engineering/test-cases/additional-implemented-cases.md): validation error details, rendering a returned product, and filtering facilities by search text. The [test-case catalogue](../../docs/quality-engineering/test-cases/README.md) links to the broader planned and blocked cases too.
+
+## How to run them
+
+**Backend unit tests** need Java 21 and Maven, but no database or Docker:
+
+```sh
+cd ../../backend
+mvn test
+```
+
+**Backend integration tests** are included by `mvn verify`. They use Testcontainers, so Docker must be available:
+
+```sh
+cd ../../backend
+mvn verify
+```
+
+**Frontend tests** need Node.js and npm. The build is a separate check: it type-checks and bundles the app, but does not run tests.
+
+```sh
+cd ../../frontend
+npm ci
+npm test
+npm run build
+```
+
+**External API and browser tests** need PostgreSQL, the backend and frontend running, plus Chrome. Start the local database from the repository root:
+
+```sh
+cd /sporthub
+docker compose -f backend/compose.yaml up -d
+```
+
+Then start the backend and frontend in separate terminals using the [runbook](../../docs/quality-engineering/11-learn-by-doing.md). Once they are available on ports 8080 and 5173:
+
+```sh
+cd ../../qa/automation
+SYSTEM_BASE_URL=http://localhost:8080 \
+UI_BASE_URL=http://localhost:5173 \
+BROWSER_HEADLESS=true mvn test
+```
+
+To select a group, use `mvn -Dgroups=api test` or `mvn -Dgroups=ui test`. Stop the local database with `docker compose -f backend/compose.yaml down`; avoid `down -v` if you want to keep its data.
+
+**JMeter health checks** need the backend running and JMeter installed. Run these from the repository root:
+
+```sh
+jmeter -n -t qa/performance/jmeter/health-smoke.jmx \
+  -Jhost=localhost -Jport=8080 \
+  -l /tmp/sporthub-health-smoke.jtl
+```
+
+```sh
+jmeter -n -t qa/performance/jmeter/health-load-test.jmx \
+  -Jhost=localhost -Jport=8080 \
+  -Jthreads=5 -Jramp=5 -Jloops=5 \
+  -l /tmp/sporthub-health-load.jtl \
+  -e -o /tmp/sporthub-health-report
+```
+
+The load plan defaults to 25 requests. Check each JTL sample’s success flag, response code, and assertion result; JMeter’s exit code alone is not enough. The five facility, product, checkout, and concurrency plans target missing routes and depend on missing test-user/token setup. The recorded 2026-11-05 run returned `401` for those plans, so they should not be treated as meaningful feature tests.
+
+## Current test logic and expected scope
+
+The repository currently has 13 expected backend unit invocations, 6 integration test methods, 15 frontend tests, and 5 external API/browser test methods. These are counts from the current source, not a fresh run.
+
+A useful mental model is:
+
+```text
+Pure Java rules ──┐
+                  ├─ PostgreSQL / Spring checks ── HTTP checks
+Mocked React UI ──┘                              └─ Chrome UI checks
+
+Health endpoint ── JMeter smoke / small workload
+```
+
+Unit and component tests are quicker and isolate one behavior. Integration, API, and browser tests include more real components, so failures can have more possible causes. For example, the React cart test can show that the page displays a mocked total; only a future live checkout API test could establish that the server calculates and persists the correct total.
+
+The CI workflow runs backend, frontend, and QA automation as separate jobs; they can run in parallel. The [CI lesson](../../docs/quality-engineering/08-cicd.md) and the [full runbook](../../docs/quality-engineering/11-learn-by-doing.md) explain reports, prerequisites, and failure interpretation.

@@ -31,18 +31,24 @@ The detailed catalogue is organized by feature in [`test-cases/`](test-cases/). 
 
 “Blocked” is not the same as “failed.” It means the production behavior needed for a meaningful test is not implemented yet. Do not pass a mocked response off as a real booking or checkout check.
 
-## 4. How we derived current tests
+## 4. A concrete pricing decision table
+
+`PricingService.classify` uses completed age on the appointment date. The production comparison is under 18 → child, 60 or older → senior, otherwise adult. The [TestNG provider](../../backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java) supplies one day before and the exact birthday at both thresholds; this is the layer that directly observes those branches. The code supports a child DOB down to its input type's valid dates; the product age policy beyond the observed code is not otherwise specified.
+
+For coupon rules, a decision table would be useful only after the owner confirms active date boundaries, minimum subtotal, per-user limits, stacking and rejection codes. Until then, those combinations remain **Planned / Needs confirmation**, and no expected API response should be invented.
+
+## 5. How we derived current tests
 
 | Source evidence | Risk/behavior | Test design choice | Implemented check |
 |---|---|---|---|
 | `PricingService.classify` and project contract age bands | Off-by-one age errors change charges. | Boundary-value analysis at age 18 and 60. | `PricingServiceTest.classifiesOnAppointmentDate`. |
 | `PricingService.facilityPrice` rates and rounding | Wrong discount or currency rounding. | One representative input per class, plus rounding boundary. | Child/adult/senior/zero/rounding tests. |
-| V6 partial unique confirmed-slot index | Two confirmed bookings for one slot. | Attempt a second insert using a real PostgreSQL schema. | `PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot`. |
+| V7 partial unique confirmed-slot index | Two confirmed bookings for one slot. | Attempt a second insert using a real PostgreSQL schema. | `PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot`. |
 | V1 required user fields and Spring transactions | Failed work should not leave data behind. | Insert inside a real transaction, throw, then query after rollback. | `PostgresApplicationIT.failedSpringTransactionRollsBackItsInsertedUser`. |
 | React registration logic | Under-age account should receive a clear message. | Negative browser test for a realistic under-age DOB. | `PublicUiSmokeTest.registrationRejectsAChildAccountBeforeSendingAnApiRequest`. |
 | React `AdminGuard` | Customer must not view admin pages in the UI. | Set a customer role and attempt protected route. | `PublicUiSmokeTest.customerRoleIsRedirectedAwayFromTheAdminRoute`. |
 
-## 5. Keep tests maintainable
+## 6. Keep tests maintainable
 
 - Give each test one main reason to fail.
 - Use names that describe behavior and expected outcome.
@@ -52,6 +58,6 @@ The detailed catalogue is organized by feature in [`test-cases/`](test-cases/). 
 - Use mocks for isolation in unit tests, not to replace every dependency in integration tests.
 - Put each requirement-to-test link in the traceability matrix.
 
-## 6. Exercise
+## 7. Exercise
 
 Pick “booking a past slot” from `test-cases/booking.md`. Identify the equivalence class, preconditions, test data, expected result, and which layer should own the first automated check once the booking service exists.

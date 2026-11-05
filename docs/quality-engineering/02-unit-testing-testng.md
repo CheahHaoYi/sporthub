@@ -51,7 +51,7 @@ The requested example, DOB `2008-11-02` on appointment date `2026-11-01`, is one
 - Zero is a valid price, and a half-up rounding edge is handled.
 - An appointment before birth, a negative base price and null required values are rejected.
 
-These examples were derived from the real code, not invented service methods. `PricingService` currently covers facility pricing only. There is no implemented coupon, product, cart or order-total Java service to test yet, so tests for those rules must wait until production logic exists.
+The pricing test class has eight `@Test` methods. Its four `ageBoundaries` data rows invoke one method four times, producing 11 invocations; the two error-handler methods add two more. The backend unit suite therefore has 10 test methods and 13 TestNG invocations. These examples come from current code: facility pricing is implemented, but there is no coupon, product, cart or order-total Java service to test yet.
 
 Money assertions compare `BigDecimal` values with explicit scale (`20.00`). `BigDecimal` avoids the small binary representation errors that can happen with floating-point types such as `double`.
 
@@ -104,7 +104,7 @@ To focus on the pricing class after TestNG provider dependencies are available:
 mvn -Dtest=PricingServiceTest test
 ```
 
-TestNG's successful summary should report the pricing examples and the error-handler test as passed. The four data-provider rows count as four invocations. A failed assertion includes the test method and expected/actual values. A compilation or dependency-resolution error is different: the test did not run.
+The current TestNG summary should report 13 invocations across pricing and error-response checks. The four data-provider rows count as four invocations. A failed assertion includes the test method and expected/actual values. A compilation or dependency-resolution error is different: the test did not run.
 
 The reports are written under `backend/target/surefire-reports/`. Open the TestNG text or XML report to see each method and invocation. Coverage is generated during `mvn verify` under `backend/target/site/jacoco/`; coverage helps spot untouched code but is not a quality score by itself.
 

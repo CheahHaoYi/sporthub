@@ -1,5 +1,20 @@
 # 09 — Debugging test failures and reporting defects
 
+## Current execution record
+
+The following is a dated historical observation recorded by the repository's implementation plan, not a run performed while editing these documents. Refresh it with the report artifacts whenever the suite changes.
+
+| Suite | Layer | 2026-11-05 evidence | Next action |
+|---|---|---|---|
+| Backend unit | TestNG/Surefire | PASS — 12 invocations (historical 2026-11-05 baseline; suite now has 13 expected invocations) | `cd backend && mvn test`; inspect `backend/target/surefire-reports/`. |
+| Backend integration | TestNG/Failsafe + PostgreSQL Testcontainers | PASS — 6 checks | `cd backend && mvn verify`; requires Docker; inspect `backend/target/failsafe-reports/`. |
+| Frontend | Vitest | PASS — 13 tests (historical baseline; suite now has 15 tests) | `cd frontend && npm test`; API is mocked. |
+| QA automation | REST Assured + Selenium | PASS — 5 tests | Start services then `cd qa/automation && mvn test`; inspect Surefire reports. |
+| JMeter health | Smoke and low-scale health plans | PASS — 1 and 25 samples, all HTTP 200 | Review JTL `success`, code and assertion result; inspect HTML report. |
+| JMeter feature templates | Five business-route plans | BLOCKED — all 10 samples per plan returned HTTP 401 | Implement endpoint, fixtures and token setup before measuring feature performance. |
+
+Statuses describe the dated evidence only. `STATICALLY VERIFIED` means source/configuration was inspected without execution; it is not a PASS.
+
 ## 1. Read the result before changing code
 
 When a test fails, first identify:
@@ -70,6 +85,8 @@ Example: “A second checkout for the same capacity-one slot is accepted” is m
 - Vitest: console summary; `npm run test:coverage` creates coverage output.
 - Selenium/REST Assured: `qa/automation/target/surefire-reports/`.
 - JMeter: `.jtl` raw results and optional HTML report directory.
+
+For Selenium startup failures, distinguish driver/browser setup from a failed UI assertion; retain the TestNG exception and any configured screenshot/log artifact. For JMeter, check per-sample `success`, response code and assertion failure text; a successful CLI process may still contain failed samples.
 
 ## 8. Exercise
 
