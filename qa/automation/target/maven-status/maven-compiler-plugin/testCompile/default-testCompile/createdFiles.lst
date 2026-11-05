@@ -1,0 +1,6 @@
+com/sporthub/qa/base/TestConfig.class
+com/sporthub/qa/pages/RegisterPage.class
+com/sporthub/qa/base/DriverFactory.class
+com/sporthub/qa/ui/PublicUiSmokeTest.class
+com/sporthub/qa/api/PlatformApiTest.class
+com/sporthub/qa/pages/LoginPage.class

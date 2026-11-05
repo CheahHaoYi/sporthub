@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-11-05T11:03:05 SGT" name="sporthub-qa-automation" finished-at="2026-11-05T11:03:10 SGT" duration-ms="5146">
+    <groups>
+      <group name="ui">
+        <method signature="PublicUiSmokeTest.customerRoleIsRedirectedAwayFromTheAdminRoute()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="customerRoleIsRedirectedAwayFromTheAdminRoute" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+        <method signature="PublicUiSmokeTest.loginPageExposesRequiredEmailAndPasswordFields()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="loginPageExposesRequiredEmailAndPasswordFields" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+        <method signature="PublicUiSmokeTest.registrationRejectsAChildAccountBeforeSendingAnApiRequest()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="registrationRejectsAChildAccountBeforeSendingAnApiRequest" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+      </group> <!-- ui -->
+      <group name="smoke">
+        <method signature="PlatformApiTest.healthEndpointAndDatabaseAreAvailable()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" name="healthEndpointAndDatabaseAreAvailable" class="com.sporthub.qa.api.PlatformApiTest"/>
+        <method signature="PublicUiSmokeTest.loginPageExposesRequiredEmailAndPasswordFields()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="loginPageExposesRequiredEmailAndPasswordFields" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+      </group> <!-- smoke -->
+      <group name="sanity">
+        <method signature="PlatformApiTest.springdocMetadataIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" name="springdocMetadataIsProtectedByDefaultSecurity" class="com.sporthub.qa.api.PlatformApiTest"/>
+        <method signature="PublicUiSmokeTest.customerRoleIsRedirectedAwayFromTheAdminRoute()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="customerRoleIsRedirectedAwayFromTheAdminRoute" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+        <method signature="PublicUiSmokeTest.registrationRejectsAChildAccountBeforeSendingAnApiRequest()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" name="registrationRejectsAChildAccountBeforeSendingAnApiRequest" class="com.sporthub.qa.ui.PublicUiSmokeTest"/>
+      </group> <!-- sanity -->
+      <group name="api">
+        <method signature="PlatformApiTest.healthEndpointAndDatabaseAreAvailable()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" name="healthEndpointAndDatabaseAreAvailable" class="com.sporthub.qa.api.PlatformApiTest"/>
+        <method signature="PlatformApiTest.springdocMetadataIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" name="springdocMetadataIsProtectedByDefaultSecurity" class="com.sporthub.qa.api.PlatformApiTest"/>
+      </group> <!-- api -->
+    </groups>
+    <test started-at="2026-11-05T11:03:05 SGT" name="api-and-browser" finished-at="2026-11-05T11:03:10 SGT" duration-ms="5146">
+      <class name="com.sporthub.qa.ui.PublicUiSmokeTest">
+        <test-method is-config="true" signature="startBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:06 SGT" name="startBrowser" finished-at="2026-11-05T11:03:07 SGT" duration-ms="1045" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startBrowser -->
+        <test-method signature="customerRoleIsRedirectedAwayFromTheAdminRoute()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:07 SGT" name="customerRoleIsRedirectedAwayFromTheAdminRoute" finished-at="2026-11-05T11:03:08 SGT" duration-ms="886" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- customerRoleIsRedirectedAwayFromTheAdminRoute -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:08 SGT" name="closeBrowser" finished-at="2026-11-05T11:03:08 SGT" duration-ms="76" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="startBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:08 SGT" name="startBrowser" finished-at="2026-11-05T11:03:09 SGT" duration-ms="290" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startBrowser -->
+        <test-method signature="loginPageExposesRequiredEmailAndPasswordFields()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:09 SGT" name="loginPageExposesRequiredEmailAndPasswordFields" finished-at="2026-11-05T11:03:09 SGT" duration-ms="443" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginPageExposesRequiredEmailAndPasswordFields -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:09 SGT" name="closeBrowser" finished-at="2026-11-05T11:03:09 SGT" duration-ms="73" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="startBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:09 SGT" name="startBrowser" finished-at="2026-11-05T11:03:10 SGT" duration-ms="331" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startBrowser -->
+        <test-method signature="registrationRejectsAChildAccountBeforeSendingAnApiRequest()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:10 SGT" name="registrationRejectsAChildAccountBeforeSendingAnApiRequest" finished-at="2026-11-05T11:03:10 SGT" duration-ms="547" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registrationRejectsAChildAccountBeforeSendingAnApiRequest -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.sporthub.qa.ui.PublicUiSmokeTest@14dd9eb7]" started-at="2026-11-05T11:03:10 SGT" name="closeBrowser" finished-at="2026-11-05T11:03:10 SGT" duration-ms="72" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+      </class> <!-- com.sporthub.qa.ui.PublicUiSmokeTest -->
+      <class name="com.sporthub.qa.api.PlatformApiTest">
+        <test-method is-config="true" signature="configure()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" started-at="2026-11-05T11:03:05 SGT" name="configure" finished-at="2026-11-05T11:03:05 SGT" duration-ms="232" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configure -->
+        <test-method signature="healthEndpointAndDatabaseAreAvailable()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" started-at="2026-11-05T11:03:05 SGT" name="healthEndpointAndDatabaseAreAvailable" finished-at="2026-11-05T11:03:06 SGT" duration-ms="1073" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- healthEndpointAndDatabaseAreAvailable -->
+        <test-method signature="springdocMetadataIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.qa.api.PlatformApiTest@61862a7f]" started-at="2026-11-05T11:03:06 SGT" name="springdocMetadataIsProtectedByDefaultSecurity" finished-at="2026-11-05T11:03:06 SGT" duration-ms="47" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springdocMetadataIsProtectedByDefaultSecurity -->
+      </class> <!-- com.sporthub.qa.api.PlatformApiTest -->
+    </test> <!-- api-and-browser -->
+  </suite> <!-- sporthub-qa-automation -->
+</testng-results>

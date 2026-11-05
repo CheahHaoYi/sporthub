@@ -1,4 +1,4 @@
-/home/haoyi/projects/ai/sporthub-backend/backend/src/main/java/com/sporthub/SportHubApplication.java
-/home/haoyi/projects/ai/sporthub-backend/backend/src/main/java/com/sporthub/common/ApiErrorResponse.java
-/home/haoyi/projects/ai/sporthub-backend/backend/src/main/java/com/sporthub/common/GlobalExceptionHandler.java
-/home/haoyi/projects/ai/sporthub-backend/backend/src/main/java/com/sporthub/pricing/PricingService.java
+/home/haoyi/projects/ai/sporthub/backend/src/main/java/com/sporthub/SportHubApplication.java
+/home/haoyi/projects/ai/sporthub/backend/src/main/java/com/sporthub/common/ApiErrorResponse.java
+/home/haoyi/projects/ai/sporthub/backend/src/main/java/com/sporthub/common/GlobalExceptionHandler.java
+/home/haoyi/projects/ai/sporthub/backend/src/main/java/com/sporthub/pricing/PricingService.java

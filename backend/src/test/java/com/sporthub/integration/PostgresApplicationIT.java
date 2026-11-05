@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
@@ -57,8 +57,11 @@ public class PostgresApplicationIT extends AbstractTestNGSpringContextTests {
         registry.add("spring.flyway.locations", () -> "filesystem:../database/migrations");
     }
 
-    @BeforeClass
+    @BeforeMethod(alwaysRun = true)
     public void configureHttpClient() {
+        // Spring injects @LocalServerPort while preparing the test instance.
+        // Setting RestAssured's port in @BeforeClass can happen before that,
+        // leaving the HTTP checks pointed at port 0 (or its default port).
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }

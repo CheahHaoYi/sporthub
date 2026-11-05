@@ -1,1 +1,3 @@
-/home/haoyi/projects/ai/sporthub-backend/backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java
+/home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/common/GlobalExceptionHandlerTest.java
+/home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/integration/PostgresApplicationIT.java
+/home/haoyi/projects/ai/sporthub/backend/src/test/java/com/sporthub/pricing/PricingServiceTest.java

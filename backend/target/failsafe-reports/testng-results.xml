@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="6" passed="6" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-11-05T11:19:15 SGT" name="Surefire suite" finished-at="2026-11-05T11:19:26 SGT" duration-ms="11486">
+    <groups>
+      <group name="system">
+        <method signature="PostgresApplicationIT.actuatorHealthReportsTheApplicationAndDatabaseAreUp()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="actuatorHealthReportsTheApplicationAndDatabaseAreUp" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.flywayCreatesTablesAndSeedsFacilitiesInPostgres()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="flywayCreatesTablesAndSeedsFacilitiesInPostgres" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.openApiDocumentIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="openApiDocumentIsProtectedByDefaultSecurity" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="postgresRejectsASecondConfirmedBookingForTheSameSlot" class="com.sporthub.integration.PostgresApplicationIT"/>
+      </group> <!-- system -->
+      <group name="smoke">
+        <method signature="PostgresApplicationIT.actuatorHealthReportsTheApplicationAndDatabaseAreUp()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="actuatorHealthReportsTheApplicationAndDatabaseAreUp" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.flywayCreatesTablesAndSeedsFacilitiesInPostgres()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="flywayCreatesTablesAndSeedsFacilitiesInPostgres" class="com.sporthub.integration.PostgresApplicationIT"/>
+      </group> <!-- smoke -->
+      <group name="integration">
+        <method signature="PostgresApplicationIT.actuatorHealthReportsTheApplicationAndDatabaseAreUp()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="actuatorHealthReportsTheApplicationAndDatabaseAreUp" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.failedSpringTransactionRollsBackItsInsertedUser()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="failedSpringTransactionRollsBackItsInsertedUser" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.flywayCreatesTablesAndSeedsFacilitiesInPostgres()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="flywayCreatesTablesAndSeedsFacilitiesInPostgres" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.openApiDocumentIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="openApiDocumentIsProtectedByDefaultSecurity" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="postgresRejectsASecondConfirmedBookingForTheSameSlot" class="com.sporthub.integration.PostgresApplicationIT"/>
+        <method signature="PostgresApplicationIT.savesAndReadsAUserRowInThePostgresSchema()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="savesAndReadsAUserRowInThePostgresSchema" class="com.sporthub.integration.PostgresApplicationIT"/>
+      </group> <!-- integration -->
+      <group name="sanity">
+        <method signature="PostgresApplicationIT.openApiDocumentIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" name="openApiDocumentIsProtectedByDefaultSecurity" class="com.sporthub.integration.PostgresApplicationIT"/>
+      </group> <!-- sanity -->
+    </groups>
+    <test started-at="2026-11-05T11:19:15 SGT" name="Surefire test" finished-at="2026-11-05T11:19:26 SGT" duration-ms="11486">
+      <class name="com.sporthub.integration.PostgresApplicationIT">
+        <test-method is-config="true" signature="springTestContextBeforeTestClass()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:15 SGT" name="springTestContextBeforeTestClass" finished-at="2026-11-05T11:19:15 SGT" duration-ms="19" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestClass -->
+        <test-method is-config="true" signature="springTestContextPrepareTestInstance()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:15 SGT" name="springTestContextPrepareTestInstance" finished-at="2026-11-05T11:19:24 SGT" depends-on-methods="org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextBeforeTestClass" duration-ms="9080" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextPrepareTestInstance -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:24 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:24 SGT" duration-ms="493" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.actuatorHealthReportsTheApplicationAndDatabaseAreUp()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:24 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:24 SGT" duration-ms="127" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method signature="actuatorHealthReportsTheApplicationAndDatabaseAreUp()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:24 SGT" name="actuatorHealthReportsTheApplicationAndDatabaseAreUp" finished-at="2026-11-05T11:19:26 SGT" duration-ms="1529" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- actuatorHealthReportsTheApplicationAndDatabaseAreUp -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="6" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.actuatorHealthReportsTheApplicationAndDatabaseAreUp()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.failedSpringTransactionRollsBackItsInsertedUser()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="failedSpringTransactionRollsBackItsInsertedUser()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="failedSpringTransactionRollsBackItsInsertedUser" finished-at="2026-11-05T11:19:26 SGT" duration-ms="77" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- failedSpringTransactionRollsBackItsInsertedUser -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:26 SGT" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="4" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.failedSpringTransactionRollsBackItsInsertedUser()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="3" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.flywayCreatesTablesAndSeedsFacilitiesInPostgres()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="flywayCreatesTablesAndSeedsFacilitiesInPostgres()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="flywayCreatesTablesAndSeedsFacilitiesInPostgres" finished-at="2026-11-05T11:19:26 SGT" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- flywayCreatesTablesAndSeedsFacilitiesInPostgres -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:26 SGT" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="3" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.flywayCreatesTablesAndSeedsFacilitiesInPostgres()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="3" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.openApiDocumentIsProtectedByDefaultSecurity()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="openApiDocumentIsProtectedByDefaultSecurity()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="openApiDocumentIsProtectedByDefaultSecurity" finished-at="2026-11-05T11:19:26 SGT" duration-ms="52" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openApiDocumentIsProtectedByDefaultSecurity -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:26 SGT" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.openApiDocumentIsProtectedByDefaultSecurity()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="6" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="postgresRejectsASecondConfirmedBookingForTheSameSlot()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="postgresRejectsASecondConfirmedBookingForTheSameSlot" finished-at="2026-11-05T11:19:26 SGT" duration-ms="22" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- postgresRejectsASecondConfirmedBookingForTheSameSlot -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:26 SGT" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="3" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.postgresRejectsASecondConfirmedBookingForTheSameSlot()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextBeforeTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.savesAndReadsAUserRowInThePostgresSchema()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method is-config="true" signature="configureHttpClient()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="configureHttpClient" finished-at="2026-11-05T11:19:26 SGT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configureHttpClient -->
+        <test-method signature="savesAndReadsAUserRowInThePostgresSchema()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="savesAndReadsAUserRowInThePostgresSchema" finished-at="2026-11-05T11:19:26 SGT" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- savesAndReadsAUserRowInThePostgresSchema -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestMethod" finished-at="2026-11-05T11:19:26 SGT" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.sporthub.integration.PostgresApplicationIT.savesAndReadsAUserRowInThePostgresSchema()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextAfterTestClass()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="springTestContextAfterTestClass" finished-at="2026-11-05T11:19:26 SGT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestClass -->
+        <test-method is-config="true" signature="stopPostgresContainer()[pri:0, instance:com.sporthub.integration.PostgresApplicationIT@22bdb1d0]" started-at="2026-11-05T11:19:26 SGT" name="stopPostgresContainer" finished-at="2026-11-05T11:19:26 SGT" duration-ms="273" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- stopPostgresContainer -->
+      </class> <!-- com.sporthub.integration.PostgresApplicationIT -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -1,0 +1,6 @@
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/api/PlatformApiTest.java
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/base/DriverFactory.java
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/base/TestConfig.java
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/pages/LoginPage.java
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/pages/RegisterPage.java
+/home/haoyi/projects/ai/sporthub/qa/automation/src/test/java/com/sporthub/qa/ui/PublicUiSmokeTest.java

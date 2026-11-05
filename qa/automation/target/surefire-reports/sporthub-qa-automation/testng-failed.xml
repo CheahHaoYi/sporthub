@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [sporthub-qa-automation]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="5" name="api-and-browser(failed)" verbose="0">
+    <groups>
+      <run>
+        <include name="ui"/>
+        <include name="ui"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.sporthub.qa.ui.PublicUiSmokeTest">
+        <methods>
+          <include name="customerRoleIsRedirectedAwayFromTheAdminRoute"/>
+          <include name="closeBrowser"/>
+          <include name="loginPageExposesRequiredEmailAndPasswordFields"/>
+          <include name="registrationRejectsAChildAccountBeforeSendingAnApiRequest"/>
+        </methods>
+      </class> <!-- com.sporthub.qa.ui.PublicUiSmokeTest -->
+    </classes>
+  </test> <!-- api-and-browser(failed) -->
+</suite> <!-- Failed suite [sporthub-qa-automation] -->

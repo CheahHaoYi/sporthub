@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="12" passed="12" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-11-05T11:19:11 SGT" name="backend-unit-tests" finished-at="2026-11-05T11:19:12 SGT" duration-ms="1253">
+    <groups>
+      <group name="unit">
+        <method signature="GlobalExceptionHandlerTest.unexpectedFailureReturnsGeneric500AndRequestPath()[pri:0, instance:com.sporthub.common.GlobalExceptionHandlerTest@2d72f75e]" name="unexpectedFailureReturnsGeneric500AndRequestPath" class="com.sporthub.common.GlobalExceptionHandlerTest"/>
+        <method signature="PricingServiceTest.acceptsZeroPriceAndRoundsBaseToCurrencyScale()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="acceptsZeroPriceAndRoundsBaseToCurrencyScale" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.adultPaysBasePriceWithoutDemographicDiscount()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="adultPaysBasePriceWithoutDemographicDiscount" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.appliesCategoryDiscountAndCurrencyRounding()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="appliesCategoryDiscountAndCurrencyRounding" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.appliesSeniorDiscount()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="appliesSeniorDiscount" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.classifiesOnAppointmentDate(java.lang.String,java.lang.String,com.sporthub.pricing.PricingService$Classification)[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="classifiesOnAppointmentDate" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.rejectsAppointmentBeforeBirth()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="rejectsAppointmentBeforeBirth" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.rejectsMissingDatesAndPrice()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="rejectsMissingDatesAndPrice" class="com.sporthub.pricing.PricingServiceTest"/>
+        <method signature="PricingServiceTest.rejectsNegativeBasePrice()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" name="rejectsNegativeBasePrice" class="com.sporthub.pricing.PricingServiceTest"/>
+      </group> <!-- unit -->
+    </groups>
+    <test started-at="2026-11-05T11:19:11 SGT" name="unit" finished-at="2026-11-05T11:19:12 SGT" duration-ms="1253">
+      <class name="com.sporthub.common.GlobalExceptionHandlerTest">
+        <test-method signature="unexpectedFailureReturnsGeneric500AndRequestPath()[pri:0, instance:com.sporthub.common.GlobalExceptionHandlerTest@2d72f75e]" started-at="2026-11-05T11:19:11 SGT" name="unexpectedFailureReturnsGeneric500AndRequestPath" finished-at="2026-11-05T11:19:12 SGT" duration-ms="1183" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- unexpectedFailureReturnsGeneric500AndRequestPath -->
+      </class> <!-- com.sporthub.common.GlobalExceptionHandlerTest -->
+      <class name="com.sporthub.pricing.PricingServiceTest">
+        <test-method signature="adultPaysBasePriceWithoutDemographicDiscount()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="adultPaysBasePriceWithoutDemographicDiscount" finished-at="2026-11-05T11:19:11 SGT" duration-ms="18" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- adultPaysBasePriceWithoutDemographicDiscount -->
+        <test-method signature="appliesCategoryDiscountAndCurrencyRounding()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="appliesCategoryDiscountAndCurrencyRounding" finished-at="2026-11-05T11:19:11 SGT" duration-ms="18" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- appliesCategoryDiscountAndCurrencyRounding -->
+        <test-method signature="acceptsZeroPriceAndRoundsBaseToCurrencyScale()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="acceptsZeroPriceAndRoundsBaseToCurrencyScale" finished-at="2026-11-05T11:19:11 SGT" duration-ms="17" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- acceptsZeroPriceAndRoundsBaseToCurrencyScale -->
+        <test-method signature="appliesSeniorDiscount()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="appliesSeniorDiscount" finished-at="2026-11-05T11:19:11 SGT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- appliesSeniorDiscount -->
+        <test-method signature="rejectsAppointmentBeforeBirth()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="rejectsAppointmentBeforeBirth" finished-at="2026-11-05T11:19:11 SGT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- rejectsAppointmentBeforeBirth -->
+        <test-method signature="rejectsMissingDatesAndPrice()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="rejectsMissingDatesAndPrice" finished-at="2026-11-05T11:19:11 SGT" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- rejectsMissingDatesAndPrice -->
+        <test-method signature="rejectsNegativeBasePrice()[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="rejectsNegativeBasePrice" finished-at="2026-11-05T11:19:11 SGT" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- rejectsNegativeBasePrice -->
+        <test-method signature="classifiesOnAppointmentDate(java.lang.String,java.lang.String,com.sporthub.pricing.PricingService$Classification)[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="classifiesOnAppointmentDate" data-provider="ageBoundaries" finished-at="2026-11-05T11:19:11 SGT" duration-ms="5" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[2008-11-02]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2026-11-01]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[CHILD]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- classifiesOnAppointmentDate -->
+        <test-method signature="classifiesOnAppointmentDate(java.lang.String,java.lang.String,com.sporthub.pricing.PricingService$Classification)[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="classifiesOnAppointmentDate" data-provider="ageBoundaries" finished-at="2026-11-05T11:19:11 SGT" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[2008-11-01]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2026-11-01]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[ADULT]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- classifiesOnAppointmentDate -->
+        <test-method signature="classifiesOnAppointmentDate(java.lang.String,java.lang.String,com.sporthub.pricing.PricingService$Classification)[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="classifiesOnAppointmentDate" data-provider="ageBoundaries" finished-at="2026-11-05T11:19:11 SGT" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[1966-11-02]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2026-11-01]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[ADULT]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- classifiesOnAppointmentDate -->
+        <test-method signature="classifiesOnAppointmentDate(java.lang.String,java.lang.String,com.sporthub.pricing.PricingService$Classification)[pri:0, instance:com.sporthub.pricing.PricingServiceTest@2a492f2a]" started-at="2026-11-05T11:19:11 SGT" name="classifiesOnAppointmentDate" data-provider="ageBoundaries" finished-at="2026-11-05T11:19:11 SGT" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[1966-11-01]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2026-11-01]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[SENIOR]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- classifiesOnAppointmentDate -->
+      </class> <!-- com.sporthub.pricing.PricingServiceTest -->
+    </test> <!-- unit -->
+  </suite> <!-- backend-unit-tests -->
+</testng-results>
